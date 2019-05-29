@@ -40,12 +40,22 @@ app.get('/songs', (req, res) => {
 });
 
 app.post('/songs', (req, res) => {
+    let song = req.body;
+    console.log(song);
+
+    pool.query(`INSERT INTO "songs" ("rank", "artist", "track", "published")
+                VALUES ('${song.rank}', '${song.artist}', '${song.track}', '${song.published}');`)
+        .then(() => {
+            res.sendStatus(201);
+        })
+        .catch((error) => {
+            console.log("Error with INSERT songs query", error);
+            res.sendStatus(500);
+        })
     // make a post/insert request to our db.
     // in theory, that'll be a promise.
     // when we get the response back
     //execute the res.send to the client
-    
-    res.sendStatus(200);
 });
 
 // set app to listen on PORT and console log that message
