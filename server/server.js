@@ -26,6 +26,11 @@ app.get('/songs', (req, res) => {
     pool.query('SELECT * FROM "songs";')
         .then((result) => {
             res.send(result.rows);
+        })
+        .catch((error) => {
+            console.log('Error with SELECT songs query', error);
+            res.sendStatus(500);
+            // send status back and then handle that further
         });
     // in theory, that'll be a promise.
     // when we get the response back
